@@ -1,0 +1,37 @@
+--- 
+version: '3'
+
+services: 
+  php-fpm: 
+    build: 
+      context: ./php-fpm
+    depends_on: 
+      - mysql
+    links:
+      - mysql
+    expose: 
+      - "9000"
+    volumes: 
+      - "./www:/var/www/html"
+    restart: always
+  nginx: 
+    build: ./nginx
+    ports: 
+      - "8080:80"
+      - "4443:443"
+    volumes: 
+      - "./www:/var/www/html"
+    depends_on: 
+      - php-fpm
+    restart: always
+  mysql: 
+    environment: 
+      - MYSQL_ROOT_PASSWORD=123456
+    image: "mysql:5.7"
+    ports: 
+      - "3306:3306"
+    volumes: 
+      - "mysql-data:/var/lib/mysql"
+    restart: always
+volumes: 
+  mysql-data:
