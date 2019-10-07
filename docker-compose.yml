@@ -25,11 +25,12 @@ services:
       - php-fpm
     restart: always
   mysql: 
+    build: ./mysql
     environment: 
       - MYSQL_ROOT_PASSWORD=123456
-    image: "mysql:5.7"
     ports: 
       - "3306:3306"
+    command: --init-file /init-database.sql
     volumes: 
       - "mysql-data:/var/lib/mysql"
     restart: always
