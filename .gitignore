@@ -1,1 +1,3 @@
 .vscode
+www/*
+!www/.gitkeep
